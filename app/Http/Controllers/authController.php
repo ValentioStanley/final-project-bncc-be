@@ -43,13 +43,9 @@ class authController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) { // kalo kematch data di db baru diterima
-            $acceptLogin = $request->session()->regenerate(); // penerimaan login
+            $request->session()->regenerate(); // penerimaan login
 
-            if($acceptLogin->role ==='Admin'){
-                return redirect()->intended(route('allItem'));
-            }else if($acceptLogin->role === 'User'){
-                return redirect()->intended(route('user')); // setelah terima, langsung ke lokasi web tertentu
-            }
+            return redirect()->intended(route('user')); // setelah terima, langsung ke lokasi web tertentu
         }
 
         return back()->withErrors([ // kalo login gak ada cocok data di db emg krn gak ada data di db maka output error
