@@ -10,17 +10,12 @@
 <body>
     <div class="card ms-5" style="margin: 1rem";>
         <div class="card-body">
-            <img src="{{asset($item->fotoBarang)}}" class="card-text">
+            <img src="{{asset('/storage/images/'.$item->fotoBarang)}}" style="width: 18rem;">
             <h5 class="card-title">Nama Barang: {{$item->namaBarang}}</h5>
             <a href="{{route('categoryDet', ['id' => $item->category->id])}}" class="card-text">Kategori: {{$item->category->namaKategori}}</a>
             <p class="card-text">Harga Barang: {{$item->hargaBarang}}</p>
             <p class="card-text">Jumlah Barang: {{$item->jumlahBarang}}</p>
-            {{-- <picture>
-                <source srcset="{{$item->fotoBarang}}" type="image/jpg+xml">
-                <img src="{{$item->fotoBarang}}" class="img-fluid img-thumbnail" alt="barang">
-            </picture>
-            <img src="data:image/jpeg;base64,{{base64_encode({{$item->fotoBarang}})}}" class="img-thumbnail" alt="barang">
-            <img src class="card-text">{{$item->fotoBarang}}</p> --}}
+            <a href="{{route('editItem', ['id'=>$item->id])}}" class="btn btn-success">Edit Item</a>
         </div>
     </div>
 

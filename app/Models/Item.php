@@ -20,11 +20,17 @@ class Item extends Model
     ];
 
         /**
-     * Get the user that owns the Book
+     * Get the category that owns the Item
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function category(){
         return $this->belongsTo(Category::class, 'kategoriID', 'id');
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'itemID', 'id');
+    }
+
 }

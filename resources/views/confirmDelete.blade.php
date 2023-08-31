@@ -8,20 +8,53 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{route('welcomeAdmin')}}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{route('addItem')}}">Add Item</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{route('addCategory')}}">Add Category</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{route('showCategory')}}">Show Category</a>
+                    </li>
+                </ul>
+                @auth
+                    <form action="{{route('logout')}}" method="POST">
+                        @csrf
+                        <button class="btn btn-outline-danger" type="submit">Logout</button>
+                    </form>
+                @else
+                    <a href="{{route('login')}}" class="btn btn-outline-success">Login</a>
+                @endauth
+            </div>
+        </div>
+    </nav>
     <div class="card ms-5" style="margin: 1rem";>
         <div class="card-body">
-            <h4 class="card-title">{{$item->namaBarang}}</h4>
-            <p class="card-text">{{$item->hargaBarang}}</p>
-            <p class="card-text">{{$item->jumlahBarang}}</p>
-            {{-- <p class="card-text">{{$item->fotoBarang}}</p> --}}
+            <img src="{{asset('/storage/images/'.$item->fotoBarang)}}" style="width: 18rem;">
+            <h4 class="card-title">Nama Barang: {{$item->namaBarang}}</h4>
+            <a href="{{route('categoryDet', ['id' => $item->category->id])}}" class="card-text">Kategori: {{$item->category->namaKategori}}</a>
+            <p class="card-text">Harga: {{$item->hargaBarang}}</p>
+            <p class="card-text">Jumlah: {{$item->jumlahBarang}}</p>
 
-            <h5>are you sure want to delete this item? Your data will be lost and cannot be restored if you delete.</h5>
+            <h5>Apakah Anda yakin menghapus barang ini? Bila Anda menghapus ini, datanya tidak dapat dikembalikan.</h5>
             <form action ="{{ route('deleteItem', ['id'=>$item->id])}}" method=POST class="mb-3">
                 @csrf
                 @method('DELETE')
                 <button class="btn btn-danger">Yes, I am sure</button>
             </form>
-            <a href="{{route('allItem')}}" class="btn btn-secondary">Cancel</a>
+            <a href="{{route('welcomeAdmin')}}" class="btn btn-secondary">Cancel</a>
         </div>
     </div>
 

@@ -27,7 +27,7 @@
             @enderror
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
-        <a href="{{route('allItem')}}" class="btn btn-dark">Cancel</a>
+        <a href="{{route('index')}}" class="btn btn-dark">Cancel</a>
         <a href="{{route('fillRegister')}}">No account? Click here</a>
     </form>
 

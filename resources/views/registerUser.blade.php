@@ -41,8 +41,8 @@
             @enderror
         </div>
         <button type="submit" class="btn btn-primary">Sign up</button>
-        <a href="{{route('allItem')}}" class="btn btn-dark">Cancel</a>
-        <a href="{{route('loginUser')}}">Have an account? Click here</a>
+        <a href="{{route('index')}}" class="btn btn-dark">Cancel</a>
+        <a href="{{route('login')}}">Have an account? Click here</a>
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

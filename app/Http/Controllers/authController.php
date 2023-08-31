@@ -34,7 +34,7 @@ class authController extends Controller
     public function login(){
         return view('login');
     }
-    // ini dipake untuk login biar cocok sama data yg udah disign up di register
+
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
@@ -42,15 +42,20 @@ class authController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) { // kalo kematch data di db baru diterima
-            $request->session()->regenerate(); // penerimaan login
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
 
-            return redirect()->intended(route('user')); // setelah terima, langsung ke lokasi web tertentu
+            if(Auth::User()->adminID == 'admin'){
+                return redirect()->intended(route('welcomeAdmin'));
+            }else{
+                return redirect()->intended(route('user'));
+            }
+        }else{
+            return back()->withErrors([
+                'email' => 'The provided credentials do not match our records.',
+                'password' => 'Wrong Password'
+            ]);
         }
-
-        return back()->withErrors([ // kalo login gak ada cocok data di db emg krn gak ada data di db maka output error
-            'email' => 'The provided credentials do not match our records.',
-        ]);
     }
 
     // buat logout dari akun

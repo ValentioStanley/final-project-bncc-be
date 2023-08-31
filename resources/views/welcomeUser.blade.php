@@ -7,7 +7,7 @@
     <title>User Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
-    {{-- Icon Google Font --}}
+    {{-- Icon Google --}}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 </head>
@@ -21,34 +21,44 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{{route('user')}}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{route('showOrder')}}"></a>
                     </li>
                 </ul>
-                <a href="" class="btn btn-info text-light me-3"><span class="material-symbols-outlined">shopping_cart</span>Cart</a>
-                <form class="d-flex">
-
-                    <button class="btn btn-outline-success" type="submit">Login</button>
-                </form>
+                @auth
+                    <form action="{{route('logout')}}" method="POST">
+                        @csrf
+                        <button class="btn btn-outline-danger" type="submit">Logout</button>
+                    </form>
+                @else
+                    <a href="{{route('login')}}" class="btn btn-outline-success">Login</a>
+                @endauth
             </div>
         </div>
     </nav>
-    <h3>Struk Barang User</h3>
+    <h3>Please choose these items.</h3>
     <div class="d-flex m-5" style="align-items: center; gap: 30px; text-align: center;">
-            @foreach ($items as $item)
+        @foreach ($items as $item)
         <div class="card" style="width: 18rem;">
             <div class="card p-4">
-                <img src="{{asset($item->fotoBarang)}}" width= '50px' height='50px' class="card-img-top" alt="Barang">
+                <img src="{{asset('/storage/images/'.$item->fotoBarang)}}" width= '50%' height='50%' class="card-img-top" alt="Barang">
                 <h5 class="card-title">{{$item->namaBarang}}</h5>
+                <a href="{{route('categoryDet', ['id' => $item->category->id])}}" class="card-text">Kategori: {{$item->category->namaKategori}}</a>
                 <p class="card-text">Rp{{$item->hargaBarang}},00</p>
-                <div class="mb-1">
-                    <a href="{{route('itemDetail', ['id'=>$item->id])}}" class="btn btn-primary">Click to more detail</a>
-                </div>
-                <div class="mt-1">
-                    <a href="" class="btn btn-primary"><span class="material-symbols-outlined" >add_shopping_cart</span>Add Cart</a>
-                </div>
+                <p class="card-text">Stock: {{$item->jumlahBarang}}</p>
+                <a href="{{route('itemDetail', ['id'=>$item->id])}}" class="btn btn-info mb-3">Click to more detail</a>
+                    @if (session('error') && $item->jumlahBarang == 0)
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @else
+                        <a href="{{route('checkout', ['id'=>$item->id])}}" class="btn btn-primary">Click to add a cart<span class="material-symbols-outlined">add_shopping_cart</span></a>
+                    @endif
             </div>
         </div>
-            @endforeach
+        @endforeach
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('kategoriID');
-            $table->foreign('kategoriID')->references('id')->on('categories');
+            $table->foreign('kategoriID')->references('id')->on('categories')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             $table->string('namaBarang');
             $table->integer('hargaBarang');
             $table->integer('jumlahBarang');

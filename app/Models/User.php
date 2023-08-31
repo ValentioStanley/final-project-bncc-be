@@ -19,10 +19,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'namaLengkap',
+        'adminID',
         'email',
         'password',
         'nomorHandphone',
-        'is_User',
     ];
 
     /**
@@ -43,4 +43,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function items()
+    {
+        return $this->hasMany(Item::class, 'userID', 'id');
+    }
 }

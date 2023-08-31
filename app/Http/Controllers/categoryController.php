@@ -10,11 +10,12 @@ class categoryController extends Controller
 {
     //
     public function addCategory(){
-
+        $this->authorize('adminID');
         return view('addCategory');
     }
 
     public function storeCategory(Request $request){
+        $this->authorize('adminID');
         Category::create([
             'namaKategori' => $request->namaKategori,
         ]);
@@ -22,6 +23,7 @@ class categoryController extends Controller
     }
 
     public function showCategory(){
+        $this->authorize('adminID');
         $categories = Category::all();
         // dd($categories);
         return view('showCategory')->with('categories', $categories);
@@ -33,11 +35,13 @@ class categoryController extends Controller
     }
 
     public function editCategory($id){
+        $this->authorize('adminID');
         $category = Category::findOrFail($id);
         return view('updateCategory')->with('category', $category);
     }
 
     public function updateCategory($id, Request $request){
+        $this->authorize('adminID');
         $category = Category::findOrFail($id)->update([
             "namaKategori" =>$request->namaKategori,
         ]);
@@ -45,6 +49,7 @@ class categoryController extends Controller
     }
 
     public function deleteCategory($id){
+        $this->authorize('adminID');
         Category::destroy($id);
 
         return redirect(route('showCategory'));
